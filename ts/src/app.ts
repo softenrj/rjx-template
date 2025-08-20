@@ -1,36 +1,58 @@
-import chalk from "chalk";
-import ENV from "./common/constants/ENV";
-import app from "./server";
-import chalkAnimation from 'chalk-animation';
-import logger from "primelogger";
+import express, { Application } from "express";
+import morgan from "morgan";
+import compression from "compression";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+const swaggerDocument = YAML.load("./src/docs/swagger.yaml");
 
-const SPINNER_FRAMES = ['|', '/', '-', '\\'];
-let spinnerIndex = 0;
+// 🛡️ Configs
+import { helmetConfig } from "./config/halmetConfig.js";
+import { corsConfig } from "./config/corsConfig.js";
+import { rateLimiter } from "./config/rateLimitConfig.js";
 
-const SERVER_START_MSG = `🚀 Express server started on port: ${ENV.Port}`;
+// 📌 Router & Middleware
+import { router } from "./router.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
-// Start spinner simulation
-const startSpinner = (text: string) => {
-  const interval = setInterval(() => {
-    const frame = SPINNER_FRAMES[spinnerIndex++ % SPINNER_FRAMES.length];
-    process.stdout.write(`\r${chalk.magentaBright(frame)} ${text}`);
-  }, 100);
-  return () => clearInterval(interval);
-};
+const app = express();
 
-// Start Server
-app.listen(ENV.Port, (err) => {
-  if (err) {
-    logger.error(chalk.redBright(err.message));
-  } else {
-    const stop = startSpinner(`Starting server on port ${ENV.Port}...`);
+/* -----------------------------------
+   🔧 Middleware Stack
+----------------------------------- */
 
-    // Wait 1s then show fancy message
-    setTimeout(() => {
-      stop(); // stop spinner
-      const rainbow = chalkAnimation.rainbow(SERVER_START_MSG);
-      setTimeout(() => rainbow.stop(), 3000); // stop animation after 3s
-    }, 1000);
-  }
-});
+// Serve Swagger UI at /docs
+/**
+ * hit that route on browser
+ */
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// Logger (development-friendly)
+app.use(morgan("dev"));
+
+// Response compression
+app.use(compression());
+
+// Security headers (Helmet)
+helmetConfig(app);
+
+// CORS setup
+corsConfig(app);
+
+// Rate limiting (global or per route)
+app.use(rateLimiter);
+
+// Parse incoming requests
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+/* -----------------------------------
+   🚏 Routes
+----------------------------------- */
+router(app);
+
+/* -----------------------------------
+   ❌ Error Handling (last middleware)
+----------------------------------- */
+app.use(errorHandler);
+
+export default app as Application;

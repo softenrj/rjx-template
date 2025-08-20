@@ -1,62 +1,65 @@
-# Node modules
+# ───────────────
+# Node & Package
+# ───────────────
 node_modules/
-
-# Build output
-dist/
-temp/
-build/
-tsbuildinfo
-
-# Logs
-*.log
-logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-# Environment variables
+# ───────────────
+# Build & Output
+# ───────────────
+dist/
+build/
+.cache/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# ───────────────
+# Env Files
+# ───────────────
 .env
 .env.*.local
+.env.test
+.env.dev
+.env.prod
 
-# OS and system files
+# ───────────────
+# Logs
+# ───────────────
+logs/
+*.log
+*.log.*
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# ───────────────
+# Editor & System
+# ───────────────
+.idea/
+.vscode/
+*.swp
+*.swo
 .DS_Store
 Thumbs.db
 
-# Editor folders
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# Coverage and test output
-coverage/
-.nyc_output/
-jest/
-
-# Runtime
-*.pid
-*.seed
-*.pid.lock
-
-# Optional npm cache directory
-.npm/
-
-# Debug
-debug.log
-
-# TypeScript cache
-*.tsbuildinfo
-
-# ESLint cache
-.eslintcache
-
-# PM2 logs
-.pids
+# ───────────────
+# Docker
+# ───────────────
+docker-compose.override.yml
 *.pid
 *.seed
 
-# Mac/Linux/Windows temp files
-*.swp
-*~
+# ───────────────
+# Test
+# ───────────────
+/coverage
+/junit.xml
+/test-results/
