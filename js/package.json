@@ -1,50 +1,62 @@
 {
-  "name": "rjx-boilerplate",
+  "name": "js-express-boilerplate",
   "version": "1.0.0",
-  "description": "A clean Express.js boilerplate by Raj (vanilla JS + ESM)",
+  "description": "Production-ready Node.js + Express (JavaScript) boilerplate with enterprise-grade features",
   "main": "src/server.js",
   "type": "module",
+  "author": "raj rjsharmase@gamil.com",
+  "license": "MIT",
   "scripts": {
-    "dev": "node --enable-source-maps -r module-alias/register src/app.js",
-    "dev_hot": "nodemon --watch src --ext js --exec \"npm run dev\"",
-    "start": "cross-env NODE_ENV=production node -r module-alias/register -r dotenv/config src/app.js",
-    "clean": "rm -rf node_modules package-lock.json dist"
+    "dev": "cross-env NODE_ENV=development node src/server.js",
+    "lint:watch": "onchange \"src/**/*.js\" -- eslint --fix {{changed}}",
+    "dev:hot": "concurrently -n LINT,SERVER --prefix-colors=cyan,green \"npm run lint:watch\" \"nodemon src/server.js\"",
+    "lint": "npx eslint .",
+    "prepare": "husky",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "clean": "rimraf node_modules coverage dist package-lock.json"
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,css,md}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "dependencies": {
-    "chalk": "^5.4.1",
-    "chalk-animation": "^2.0.3",
-    "cookie-parser": "^1.4.7",
+    "@stylistic/eslint-plugin": "^5.2.3",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
-    "dayjs": "^1.11.13",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
     "helmet": "^8.1.0",
-    "jet-env": "^1.1.4",
-    "jet-validators": "^1.4.3",
-    "module-alias": "^2.2.3",
-    "morgan": "^1.10.0",
-    "primelogger": "^1.0.1"
+    "mongoose": "^8.17.1",
+    "morgan": "^1.10.1",
+    "primelogger": "^1.0.1",
+    "rimraf": "^6.0.1",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "nodemon": "^3.1.0"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "_moduleAliases": {
-    "@src": "src",
-    "@common": "src/common",
-    "@routes": "src/routes"
-  },
-  "keywords": [
-    "express",
-    "boilerplate",
-    "raj",
-    "vanilla-js",
-    "esm",
-    "starter"
-  ],
-  "license": "MIT",
-  "author": "Raj"
+    "@eslint/js": "^9.33.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.21.3",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "nodemon": "^3.1.0",
+    "onchange": "^7.1.0",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
+  }
 }

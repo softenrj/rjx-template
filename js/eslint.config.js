@@ -1,89 +1,62 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const js_1 = __importDefault(require("@eslint/js"));
-const typescript_eslint_1 = __importDefault(require("typescript-eslint"));
-const eslint_plugin_js_1 = __importDefault(require("@stylistic/eslint-plugin-js"));
-const eslint_plugin_ts_1 = __importDefault(require("@stylistic/eslint-plugin-ts"));
-const eslint_plugin_n_1 = __importDefault(require("eslint-plugin-n"));
-exports.default = typescript_eslint_1.default.config(js_1.default.configs.recommended, eslint_plugin_n_1.default.configs['flat/recommended-script'], ...typescript_eslint_1.default.configs.strictTypeChecked, ...typescript_eslint_1.default.configs.stylisticTypeChecked, {
-    ignores: [
-        '**/node_modules/*',
-        '**/*.mjs',
-        '**/*.js',
-    ],
-}, {
+import js from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
+import eslintPluginN from "eslint-plugin-n";
+import prettier from "eslint-config-prettier";
+import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
+
+
+export default [
+  js.configs.recommended,
+
+  eslintPluginN.configs["flat/recommended-script"],
+
+  {
+    ignores: ["**/node_modules/*", "**/dist/*", "**/coverage/*"],
+  },
+  {
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
     languageOptions: {
-        parserOptions: {
-            project: './tsconfig.json',
-            warnOnUnsupportedTypeScriptVersion: false,
-        },
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.vitest,
+      },
     },
-}, {
     plugins: {
-        '@stylistic/js': eslint_plugin_js_1.default,
-        '@stylistic/ts': eslint_plugin_ts_1.default,
+      "@stylistic": stylistic,
+      "unused-imports": unusedImports,
     },
-}, {
-    files: ['**/*.ts'],
-}, {
     rules: {
-        '@typescript-eslint/explicit-member-accessibility': 'warn',
-        '@typescript-eslint/no-misused-promises': 0,
-        '@typescript-eslint/no-floating-promises': 0,
-        '@typescript-eslint/no-confusing-void-expression': 0,
-        '@typescript-eslint/no-unnecessary-condition': 0,
-        '@typescript-eslint/restrict-template-expressions': [
-            'error', { allowNumber: true },
-        ],
-        '@typescript-eslint/restrict-plus-operands': [
-            'warn', { allowNumberAndString: true },
-        ],
-        '@typescript-eslint/no-unused-vars': 'warn',
-        '@typescript-eslint/no-unsafe-enum-comparison': 0,
-        '@typescript-eslint/no-unnecessary-type-parameters': 0,
-        '@stylistic/js/no-extra-semi': 'warn',
-        'max-len': [
-            'warn',
-            {
-                'code': 80,
-            },
-        ],
-        '@stylistic/ts/semi': ['warn', 'always'],
-        '@stylistic/ts/member-delimiter-style': ['warn', {
-                'multiline': {
-                    'delimiter': 'comma',
-                    'requireLast': true,
-                },
-                'singleline': {
-                    'delimiter': 'comma',
-                    'requireLast': false,
-                },
-                'overrides': {
-                    'interface': {
-                        'singleline': {
-                            'delimiter': 'semi',
-                            'requireLast': false,
-                        },
-                        'multiline': {
-                            'delimiter': 'semi',
-                            'requireLast': true,
-                        },
-                    },
-                },
-            }],
-        '@typescript-eslint/no-non-null-assertion': 0,
-        '@typescript-eslint/no-unused-expressions': 'warn',
-        'comma-dangle': ['warn', 'always-multiline'],
-        'no-console': 1,
-        'no-extra-boolean-cast': 0,
-        'indent': ['warn', 2],
-        'quotes': ['warn', 'single'],
-        'n/no-process-env': 1,
-        'n/no-missing-import': 0,
-        'n/no-unpublished-import': 0,
-        'prefer-const': 'warn',
+      "no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
+      "n/no-process-env": "off",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
+
+      "@stylistic/no-extra-semi": "warn",
+      "@stylistic/semi": ["warn", "always"],
+      "@stylistic/quotes": ["warn", "single"],
+      indent: ["warn", 2],
+      "max-len": ["warn", { code: 100, ignoreUrls: true }],
+
+      "n/no-missing-import": "off", // handled by bundler/runtime
+      "n/no-unpublished-import": "off",
+
+      "comma-dangle": ["warn", "always-multiline"],
+      "no-console": "off", // allow console in backend
+      "no-extra-boolean-cast": "off",
+      "prefer-const": "warn",
     },
-});
+  },
+
+  // Prettier (disable conflicting ESLint rules)
+  prettier,
+];

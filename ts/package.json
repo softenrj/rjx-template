@@ -14,7 +14,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "clean": "rm -fr node_modules coverage dist package-lock.json"
+    "clean": "rimraf node_modules coverage dist package-lock.json"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,json,css,md}": [
@@ -30,6 +30,7 @@
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
+    "rimraf": "^6.0.1",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
     "helmet": "^8.1.0",
