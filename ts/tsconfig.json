@@ -15,15 +15,6 @@
     "declarationMap": true,
     "sourceMap": true,
     "baseUrl": "src",
-    "paths": {
-      "@/*": ["*"],
-      "@controllers/*": ["controllers/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@models/*": ["models/*"],
-      "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
-    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

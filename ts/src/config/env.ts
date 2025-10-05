@@ -10,7 +10,7 @@ const envFile =
     : ".env.dev";
 
 // Load env file
-dotenv.config({ path: path.resolve(process.cwd(), envFile) });
+export const env = dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
 export const ENV = {
   NODE_ENV: process.env.NODE_ENV ?? "development",

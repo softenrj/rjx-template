@@ -13,8 +13,10 @@ import { rateLimiter } from "./config/rateLimitConfig.js";
 // 📌 Router & Middleware
 import { router } from "./router.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { env } from "./config/env.js";
 
 const app = express();
+env;
 
 /* -----------------------------------
    🔧 Middleware Stack
