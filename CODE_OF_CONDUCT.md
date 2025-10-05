@@ -55,4 +55,4 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 
 ## Contact Info
 
-For any questions or concerns regarding this Code of Conduct, please contact the maintainers at: [your-email@example.com]
+For any questions or concerns regarding this Code of Conduct, please contact the maintainers at: [rjsharmase@example.com]
