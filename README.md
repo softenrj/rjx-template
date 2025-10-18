@@ -94,7 +94,7 @@ ts/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/rjx-template.git
+   git clone https://github.com/softenrj/rjx-template.git
    cd rjx-template
    ```
 
