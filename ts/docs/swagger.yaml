@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: My Express API
+  version: 1.0.0
+  description: "API documentation for my Express TypeScript app"
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: "Health check"
+      description: "Returns server status and uptime"
+      responses:
+        '200':
+          description: "Server is running"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  uptime:
+                    type: number
+                    example: 12.345
+                  timestamp:
+                    type: number
+                    example: 1690000000000

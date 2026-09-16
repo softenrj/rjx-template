@@ -1,0 +1,24 @@
+{
+  "name": "rjx:monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev/web": "turbo run dev --filter=@rjx:web"
+  },
+  "keywords": [],
+  "workspaces": [
+    "packages/*",
+    "scripts/*",
+    "native/*"
+  ],
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.23.0"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.23.0"
+}
