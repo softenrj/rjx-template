@@ -4,7 +4,14 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev/web": "turbo run dev --filter=@rjx:web"
+    "dev/web": "turbo run dev --filter=@rjx/web",
+    "build/web": "turbo run build --filter=@rjx/web",
+    "sync/android": "pnpm --filter=@rjx/android exec cap sync android",
+    "run/android": "pnpm --filter=@rjx/android exec cap run android",
+    "dev/android": "pnpm run build/web && concurrently \"pnpm run sync/android\" \"pnpm run dev/web\" \"wait-on http://localhost:5173 && pnpm run run/android\"",
+    "sync/ios": "pnpm --filter=@rjx/ios exec cap sync ios",
+    "run/ios": "pnpm --filter=@rjx/ios exec cap run ios",
+    "dev/ios": "pnpm run build/web && concurrently \"pnpm run sync/ios\" \"pnpm run dev/web\" \"wait-on http://localhost:5173 && pnpm run run/ios\""
   },
   "keywords": [],
   "workspaces": [
@@ -15,10 +22,14 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "10.23.0"
+      "version": "12.4.2"
     }
   },
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.23.0"
+  "packageManager": "pnpm@12.4.2",
+  "dependencies": {
+    "concurrently": "^10.0.5",
+    "wait-on": "^9.1.0"
+  }
 }
